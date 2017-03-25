@@ -31,7 +31,13 @@ datasets_map = {
     'pascalvoc_2012': pascalvoc_2012,
 }
 
-
+"""
+dataset = dataset_factory.get_dataset(
+            FLAGS.dataset_name,         # dataset_name : pascalvoc_2012
+            FLAGS.dataset_split_name,   # dataset_split_name : train
+            FLAGS.dataset_dir           # dataset_dir : ~/voc/VOC2012/converted/
+            )
+"""
 def get_dataset(name, split_name, dataset_dir, file_pattern=None, reader=None):
     """Given a dataset name and a split_name returns a Dataset.
 

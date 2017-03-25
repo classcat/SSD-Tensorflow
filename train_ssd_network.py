@@ -201,7 +201,10 @@ def main(_):
 
         # Select the dataset.
         dataset = dataset_factory.get_dataset(
-            FLAGS.dataset_name, FLAGS.dataset_split_name, FLAGS.dataset_dir)
+            FLAGS.dataset_name,         # dataset_name : pascalvoc_2012
+            FLAGS.dataset_split_name,   # dataset_split_name : train
+            FLAGS.dataset_dir           # dataset_dir : ~/voc/VOC2012/converted/
+            )
 
         # Get the SSD network and its anchors.
         ssd_class = nets_factory.get_network(FLAGS.model_name)
