@@ -11,8 +11,8 @@
 # 使用するファイル名
 # voc_2012_train.tfrecord
 
-DATASET_DIR=/home/masao/voc/VOC2012/trainval/
-OUTPUT_DIR=/home/masao/voc/VOC2012/converted/
+DATASET_DIR=/home/ubuntu/voc/VOC2012/trainval/
+OUTPUT_DIR=/home/ubuntu/voc/VOC2012/converted/
 python tf_convert_data.py \
   --dataset_name=pascalvoc \
   --dataset_dir=${DATASET_DIR} \
