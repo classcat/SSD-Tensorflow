@@ -22,6 +22,7 @@ from nets import nets_factory
 from preprocessing import preprocessing_factory
 import tf_utils
 
+""" slim を使用 """
 slim = tf.contrib.slim
 
 # =========================================================================== #
@@ -133,6 +134,7 @@ tf.app.flags.DEFINE_integer(
     'num_classes', 21, 'Number of classes to use in the dataset.')
 tf.app.flags.DEFINE_string(
     'dataset_split_name', 'train', 'The name of the train/test split.')
+# データセット dir を指定 (必須)
 tf.app.flags.DEFINE_string(
     'dataset_dir', None, 'The directory where the dataset files are stored.')
 tf.app.flags.DEFINE_integer(
