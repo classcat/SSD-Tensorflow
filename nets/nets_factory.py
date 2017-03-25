@@ -53,7 +53,7 @@ networks_obj = {'ssd_300_vgg': ssd_vgg_300.SSDNet,
                 }
 
 
-def get_network(name):
+def get_network(name): # ssd_300_vgg
     """Get a network object from a name.
     """
     # params = networks_obj[name].default_params if params is None else params

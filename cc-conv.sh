@@ -6,6 +6,11 @@
 # >> Converting image 17125/17125
 # Finished converting the Pascal VOC dataset!
 
+# 要求されるファイルパターン
+# 'voc_2012_%s.tfrecord'
+# 使用するファイル名
+# voc_2012_train.tfrecord
+
 DATASET_DIR=/home/masao/voc/VOC2012/trainval/
 OUTPUT_DIR=/home/masao/voc/VOC2012/converted/
 python tf_convert_data.py \

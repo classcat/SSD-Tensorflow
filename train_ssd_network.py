@@ -25,6 +25,92 @@ import tf_utils
 """ slim を使用 """
 slim = tf.contrib.slim
 
+""" config.out
+# =========================================================================== #
+# Training | Evaluation flags:
+# =========================================================================== #
+{'adadelta_rho': 0.95,
+ 'adagrad_initial_accumulator_value': 0.1,
+ 'adam_beta1': 0.9,
+ 'adam_beta2': 0.999,
+ 'batch_size': 32,
+ 'checkpoint_exclude_scopes': None,
+ 'checkpoint_model_scope': None,
+ 'checkpoint_path': './checkpoints/ssd_300_vgg.ckpt',
+ 'clone_on_cpu': False,
+ 'dataset_dir': '/home/masao/voc/VOC2012/converted/',
+ 'dataset_name': 'pascalvoc_2012',
+ 'dataset_split_name': 'train',
+ 'end_learning_rate': 0.0001,
+ 'ftrl_initial_accumulator_value': 0.1,
+ 'ftrl_l1': 0.0,
+ 'ftrl_l2': 0.0,
+ 'ftrl_learning_rate_power': -0.5,
+ 'gpu_memory_fraction': 0.75,
+ 'ignore_missing_vars': False,
+ 'label_smoothing': 0.0,
+ 'labels_offset': 0,
+ 'learning_rate': 0.001,
+ 'learning_rate_decay_factor': 0.94,
+ 'learning_rate_decay_type': 'exponential',
+ 'log_every_n_steps': 10,
+ 'loss_alpha': 1.0,
+ 'match_threshold': 0.5,
+ 'max_number_of_steps': None,
+ 'model_name': 'ssd_300_vgg',
+ 'momentum': 0.9,
+ 'moving_average_decay': None,
+ 'negative_ratio': 3.0,
+ 'num_classes': 21,
+ 'num_clones': 1,
+ 'num_epochs_per_decay': 2.0,
+ 'num_preprocessing_threads': 4,
+ 'num_readers': 4,
+ 'opt_epsilon': 1.0,
+ 'optimizer': 'adam',
+ 'preprocessing_name': None,
+ 'rmsprop_decay': 0.9,
+ 'rmsprop_momentum': 0.9,
+ 'save_interval_secs': 600,
+ 'save_summaries_secs': 60,
+ 'train_dir': '../logs/',
+ 'train_image_size': None,
+ 'trainable_scopes': None,
+ 'weight_decay': 0.0005}
+
+# =========================================================================== #
+# SSD net parameters:
+# =========================================================================== #
+{'anchor_offset': 0.5,
+ 'anchor_ratios': [[2, 0.5],
+                   [2, 0.5, 3, 0.3333333333333333],
+                   [2, 0.5, 3, 0.3333333333333333],
+                   [2, 0.5, 3, 0.3333333333333333],
+                   [2, 0.5],
+                   [2, 0.5]],
+ 'anchor_size_bounds': [0.15, 0.9],
+ 'anchor_sizes': [(21.0, 45.0),
+                  (45.0, 99.0),
+                  (99.0, 153.0),
+                  (153.0, 207.0),
+                  (207.0, 261.0),
+                  (261.0, 315.0)],
+ 'anchor_steps': [8, 16, 32, 64, 100, 300],
+ 'feat_layers': ['block4', 'block7', 'block8', 'block9', 'block10', 'block11'],
+ 'feat_shapes': [(38, 38), (19, 19), (10, 10), (5, 5), (3, 3), (1, 1)],
+ 'img_shape': (300, 300),
+ 'no_annotation_label': 21,
+ 'normalizations': [20, -1, -1, -1, -1, -1],
+ 'num_classes': 21,
+ 'prior_scaling': [0.1, 0.1, 0.2, 0.2]}
+
+# =========================================================================== #
+# Training | Evaluation dataset files:
+# =========================================================================== #
+['~/voc/VOC2012/converted/voc_2012_train.tfrecord']
+
+"""
+
 # =========================================================================== #
 # SSD Network flags.
 # =========================================================================== #
@@ -200,6 +286,17 @@ def main(_):
             global_step = slim.create_global_step()
 
         # Select the dataset.
+        """
+        datasets_map = {
+        #    'cifar10': cifar10,
+            'imagenet': imagenet,
+            'pascalvoc_2007': pascalvoc_2007,
+            'pascalvoc_2012': pascalvoc_2012,
+        }
+        """
+        """
+        slim.dataset.Dataset()
+        """
         dataset = dataset_factory.get_dataset(
             FLAGS.dataset_name,         # dataset_name : pascalvoc_2012
             FLAGS.dataset_split_name,   # dataset_split_name : train
@@ -207,10 +304,11 @@ def main(_):
             )
 
         # Get the SSD network and its anchors.
-        ssd_class = nets_factory.get_network(FLAGS.model_name)
-        ssd_params = ssd_class.default_params._replace(num_classes=FLAGS.num_classes)
-        ssd_net = ssd_class(ssd_params)
-        ssd_shape = ssd_net.params.img_shape
+        # ssd_class : nets.ssd_vgg_300.SSDNet
+        ssd_class   = nets_factory.get_network(FLAGS.model_name) # ssd_300_vgg
+        ssd_params  = ssd_class.default_params._replace(num_classes=FLAGS.num_classes)
+        ssd_net     = ssd_class(ssd_params)
+        ssd_shape   = ssd_net.params.img_shape
         ssd_anchors = ssd_net.anchors(ssd_shape)
 
         # Select the preprocessing function.
@@ -220,6 +318,7 @@ def main(_):
 
         tf_utils.print_configuration(FLAGS.__flags, ssd_params,
                                      dataset.data_sources, FLAGS.train_dir)
+        sys.exit(0)
         # =================================================================== #
         # Create a dataset provider and batches.
         # =================================================================== #

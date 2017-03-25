@@ -27,7 +27,7 @@ ITEMS_TO_DESCRIPTIONS = {
     'object/label': 'A list of labels, one per each object.',
 }
 SPLITS_TO_SIZES = {
-    'train': 17125,
+    'train': 17125,     # この数が正しいことは確認済み。というか、Hard coding ?
 }
 NUM_CLASSES = 20
 
@@ -51,9 +51,14 @@ def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
     """
     if not file_pattern:
         file_pattern = FILE_PATTERN
-    return pascalvoc_common.get_split(split_name, dataset_dir,
-                                      file_pattern, reader,
-                                      SPLITS_TO_SIZES,
-                                      ITEMS_TO_DESCRIPTIONS,
-                                      NUM_CLASSES)
 
+    return pascalvoc_common.get_split(split_name,       # train
+                                        dataset_dir,    # # ~/voc/VOC2012/converted/
+                                        file_pattern,   # 'voc_2012_%s.tfrecord'
+                                        reader,
+                                        SPLITS_TO_SIZES,
+                                        ITEMS_TO_DESCRIPTIONS,
+                                        NUM_CLASSES     # 20
+                                        )
+
+### EOF ###

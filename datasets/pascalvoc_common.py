@@ -106,6 +106,25 @@ def get_split(split_name, dataset_dir, file_pattern, reader,
     #     labels_to_names = create_readable_names_for_imagenet_labels()
     #     dataset_utils.write_label_file(labels_to_names, dataset_dir)
 
+    """
+    class Dataset(object):
+        Represents a Dataset specification.
+
+        def __init__(self, data_sources, reader, decoder, num_samples,
+                        items_to_descriptions, **kwargs):
+    Initializes the dataset.
+
+    Args:
+      data_sources: A list of files that make up the dataset.
+      reader: The reader class, a subclass of BaseReader such as TextLineReader
+        or TFRecordReader.
+      decoder: An instance of a data_decoder.
+      num_samples: The number of samples in the dataset.
+      items_to_descriptions: A map from the items that the dataset provides to
+        the descriptions of those items.
+      **kwargs: Any remaining dataset-specific fields.
+
+    """
     return slim.dataset.Dataset(
             data_sources=file_pattern,
             reader=reader,
@@ -114,3 +133,6 @@ def get_split(split_name, dataset_dir, file_pattern, reader,
             items_to_descriptions=items_to_descriptions,
             num_classes=num_classes,
             labels_to_names=labels_to_names)
+
+
+### EOF ###
