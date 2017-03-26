@@ -22,6 +22,7 @@ from nets import nets_factory
 from preprocessing import preprocessing_factory
 import tf_utils
 
+
 """ slim を使用 """
 slim = tf.contrib.slim
 
@@ -318,7 +319,7 @@ def main(_):
 
         tf_utils.print_configuration(FLAGS.__flags, ssd_params,
                                      dataset.data_sources, FLAGS.train_dir)
-        sys.exit(0)
+
         # =================================================================== #
         # Create a dataset provider and batches.
         # =================================================================== #
@@ -467,7 +468,9 @@ def main(_):
                                 gpu_options=gpu_options)
         saver = tf.train.Saver(max_to_keep=5,
                                keep_checkpoint_every_n_hours=1.0,
-                               write_version=2,
+                               #write_version=saver_pb2.SaverDef.V1,
+                               write_version=saver_pb2.SaverDef.V2,
+                               #write_version=2,
                                pad_step_number=False)
         slim.learning.train(
             train_tensor,
